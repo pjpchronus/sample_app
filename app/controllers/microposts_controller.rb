@@ -1,6 +1,8 @@
 class MicropostsController < ApplicationController
-before_action :logged_in_user, only: [:create, :destroy]
+skip_before_action :logged_in_user, except: [:create, :destroy]
+skip_before_action :check_blocked, except: [:create, :destroy]
 before_action :correct_user,   only: :destroy
+
 def create
 @micropost = current_user.microposts.build(micropost_params)
 	if @micropost.save

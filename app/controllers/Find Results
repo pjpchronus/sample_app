@@ -1,0 +1,256 @@
+Searching 588 files for "current_user = "
+
+/home/jyothiprakash/environment/sample_app/app/helpers/sessions_helper.rb:
+   23    def log_out
+   24      session.delete(:user_id)
+   25:     @current_user = nil
+   26    end
+   27    # Redirects to stored location (or to the default).
+
+1 match in 1 file
+
+
+Searching 588 files for "log_in"
+
+/home/jyothiprakash/environment/sample_app/app/controllers/sessions_controller.rb:
+    6      user = User.find_by(email: params[:session][:email].downcase)
+    7      if user && user.authenticate(params[:session][:password])
+    8:     	log_in user
+    9  	    redirect_to user
+   10  
+
+/home/jyothiprakash/environment/sample_app/app/controllers/users_controller.rb:
+   17  		@user = User.new(user_params)
+   18  		if @user.save
+   19: 			log_in @user
+   20  		  # Handle a successful save.
+   21  		  redirect_to @user
+
+/home/jyothiprakash/environment/sample_app/app/helpers/sessions_helper.rb:
+    1  module SessionsHelper
+    2: 	def log_in(user)
+    3  		session[:user_id] = user.id
+    4  	end
+
+/home/jyothiprakash/environment/sample_app/test/test_helper.rb:
+   13    end
+   14    # Log in as a particular user.
+   15:   def log_in_as(user)
+   16      session[:user_id] = user.id
+   17    end
+   ..
+   21  
+   22    # Log in as a particular user.
+   23:   def log_in_as(user, password: 'password', remember_me: '1')
+   24      post login_path, params: { session: { email: user.email,
+   25                                            password: password,
+
+/home/jyothiprakash/environment/sample_app/test/integration/users_edit_test.rb:
+    8  
+    9    test "unsuccessful edit" do
+   10:     log_in_as(@user)
+   11      get edit_user_path(@user)
+   12      assert_template 'users/edit'
+   ..
+   19    end
+   20    test "successful edit" do
+   21:   	log_in_as(@user)
+   22      get edit_user_path(@user)
+   23      assert_template 'users/edit'
+
+7 matches across 5 files
+
+
+Searching 647 files for "feed"
+
+/home/jyothiprakash/environment/sample_app/app/controllers/microposts_controller.rb:
+    8  	  redirect_to root_url
+    9  	else
+   10: 	  @feed_items = []
+   11  	  render 'static_pages/home'
+   12  	end
+
+/home/jyothiprakash/environment/sample_app/app/controllers/static_pages_controller.rb:
+    2    def home
+    3    	@micropost = current_user.microposts.build if logged_in?
+    4:   	@feed_items = current_user.feed.paginate(page: params[:page]) if logged_in?
+    5    end
+    6    def help
+
+/home/jyothiprakash/environment/sample_app/app/models/user.rb:
+   25    end
+   26    # See "Following users" for the full implementation.
+   27:   def feed
+   28      Micropost.where("user_id = ?", id)
+   29    end
+
+/home/jyothiprakash/environment/sample_app/app/views/shared/_feed.html.erb:
+    1: <% if @feed_items.any? %>
+    2    <ol class="microposts">
+    3:     <%= render @feed_items %>
+    4    </ol>
+    5:   <%= will_paginate @feed_items %>
+    6  <% end %>
+
+/home/jyothiprakash/environment/sample_app/app/views/static_pages/home.html.erb:
+   14      </aside>
+   15      <div class="col-md-8">
+   16:       <h3>Micropost Feed</h3>
+   17:       <%= render 'shared/feed' %>
+   18      </div>
+   19  
+
+/home/jyothiprakash/environment/sample_app/log/development.log:
+    <binary>
+
+83 matches across 6 files
+
+
+Searching 648 files for "logged_in"
+
+/home/jyothiprakash/environment/sample_app/app/controllers/application_controller.rb:
+    8  
+    9     # Confirms a logged-in user.
+   10:     def logged_in_user
+   11:       unless logged_in?
+   12          store_location
+   13          flash[:danger] = "Please log in."
+
+/home/jyothiprakash/environment/sample_app/app/controllers/microposts_controller.rb:
+    1  class MicropostsController < ApplicationController
+    2: before_action :logged_in_user, only: [:create, :destroy]
+    3  before_action :correct_user,   only: :destroy
+    4  def create
+
+/home/jyothiprakash/environment/sample_app/app/controllers/relationships_controller.rb:
+    1  class RelationshipsController < ApplicationController
+    2: before_action :logged_in_user
+    3    def create
+    4    	user = User.find(params[:followed_id])
+
+/home/jyothiprakash/environment/sample_app/app/controllers/static_pages_controller.rb:
+    1  class StaticPagesController < ApplicationController
+    2    def home
+    3:   	return unless logged_in?
+    4  
+    5    	@micropost = current_user.microposts.build
+
+/home/jyothiprakash/environment/sample_app/app/controllers/users_controller.rb:
+    1  class UsersController < ApplicationController
+    2: 	before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+    3  	before_action :correct_user,   only: [:edit, :update]
+    4  	before_action :admin_user,     only: :destroy
+    .
+   62        redirect_to(root_url) unless current_user.admin?
+   63      end
+   64: 	# def logged_in_user
+   65:  #      unless logged_in?
+   66   #      	store_location
+   67   #        flash[:danger] = "Please log in."
+
+/home/jyothiprakash/environment/sample_app/app/helpers/sessions_helper.rb:
+   17      	@current_user ||= User.find_by(id: session[:user_id])
+   18    	end
+   19:   	def logged_in?
+   20      	!current_user.nil?
+   21    	end
+
+/home/jyothiprakash/environment/sample_app/app/views/layouts/_header.html.erb:
+    4      <nav>
+    5        <ul class="nav navbar-nav navbar-right">
+    6:         <%if logged_in? %>
+    7          <li><%= link_to "Home", root_path %></li>
+    8          <%end%>
+    9          <li><%= link_to "Help", help_path %></li>
+   10:         <% if logged_in? %>
+   11            <li><%= link_to "Users", users_path %></li>
+   12            <li class="dropdown">
+
+/home/jyothiprakash/environment/sample_app/app/views/static_pages/home.html.erb:
+    1: <% if logged_in? %>
+    2    <div class="row">
+    3      <aside class="col-md-4">
+
+/home/jyothiprakash/environment/sample_app/app/views/users/show.html.erb:
+   13    </aside>
+   14    <div class="col-md-8">
+   15:   	<%= render 'follow_form' if logged_in? %>
+   16      <% if @user.microposts.any? %>
+   17        <h3>Microposts (<%= @user.microposts.count %>)</h3>
+
+/home/jyothiprakash/environment/sample_app/log/development.log:
+    <binary>
+
+/home/jyothiprakash/environment/sample_app/log/test.log:
+    <binary>
+
+/home/jyothiprakash/environment/sample_app/test/test_helper.rb:
+    9    include ApplicationHelper
+   10    # Returns true if a test user is logged in.
+   11:   def is_logged_in?
+   12      !session[:user_id].nil?
+   13    end
+
+/home/jyothiprakash/environment/sample_app/test/integration/users_login_test.rb:
+    9      post login_path, params: { session: { email:    @user.email,
+   10                                            password: 'password' } }
+   11: 	assert is_logged_in?                                          
+   12      assert_redirected_to @user
+   13      follow_redirect!
+   ..
+   17      assert_select "a[href=?]", user_path(@user)
+   18      delete logout_path
+   19:     assert_not is_logged_in?
+   20      assert_redirected_to root_url
+   21      follow_redirect!
+
+/home/jyothiprakash/environment/sample_app/test/integration/users_signup_test.rb:
+   26      assert_template 'users/show'
+   27      #assert_not flash.FILL_IN
+   28:     assert is_logged_in?
+   29    end
+   30  end
+
+54 matches across 14 files
+
+
+Searching 648 files for "logged_in_user"
+
+/home/jyothiprakash/environment/sample_app/app/controllers/application_controller.rb:
+    8  
+    9     # Confirms a logged-in user.
+   10:     def logged_in_user
+   11        unless logged_in?
+   12          store_location
+
+/home/jyothiprakash/environment/sample_app/app/controllers/microposts_controller.rb:
+    1  class MicropostsController < ApplicationController
+    2: before_action :logged_in_user, only: [:create, :destroy]
+    3  before_action :correct_user,   only: :destroy
+    4  def create
+
+/home/jyothiprakash/environment/sample_app/app/controllers/relationships_controller.rb:
+    1  class RelationshipsController < ApplicationController
+    2: before_action :logged_in_user
+    3    def create
+    4    	user = User.find(params[:followed_id])
+
+/home/jyothiprakash/environment/sample_app/app/controllers/users_controller.rb:
+    1  class UsersController < ApplicationController
+    2: 	before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+    3  	before_action :correct_user,   only: [:edit, :update]
+    4  	before_action :admin_user,     only: :destroy
+    .
+   62        redirect_to(root_url) unless current_user.admin?
+   63      end
+   64: 	# def logged_in_user
+   65   #      unless logged_in?
+   66   #      	store_location
+
+/home/jyothiprakash/environment/sample_app/log/development.log:
+    <binary>
+
+/home/jyothiprakash/environment/sample_app/log/test.log:
+    <binary>
+
+13 matches across 6 files

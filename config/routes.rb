@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get :following, :followers
+      patch :block, :unblock
     end
   end
   resources :microposts,  only: [:create, :destroy]

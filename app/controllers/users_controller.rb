@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-	before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+	skip_before_action :logged_in_user, only: [:new, :create]
+	skip_before_action :check_blocked, only: [:new, :create]
 	before_action :correct_user,   only: [:edit, :update]
 	before_action :admin_user,     only: :destroy
 	def index
@@ -27,7 +28,33 @@ class UsersController < ApplicationController
 	    User.find(params[:id]).destroy
 	    flash[:success] = "User deleted"
 	    redirect_to users_url
-	  end
+	end
+
+	def block
+		user = User.find(params[:id])
+		user.isblocked = true
+		is_saved_successfully = user.save
+		if is_saved_successfully
+			flash.now[:success] = "Account blocked successfully!"
+		else
+			flash.now[:error] = "Something went wrong. Please  try again later."
+		end
+		redirect_back(fallback_location: users_path)
+	end
+
+	def unblock
+		user = User.find(params[:id])
+		user.isblocked = false
+		is_saved_successfully = user.save
+		if is_saved_successfully
+			flash.now[:success] = "Account blocked successfully!"
+		else
+			flash.now[:error] = "Something went wrong. Please  try again later."
+		end
+		flash.now[:success] = "Account unblocked successfully!"
+		redirect_back(fallback_location: users_path)
+	end
+
 	def edit
 		@user = User.find(params[:id])
 	end
