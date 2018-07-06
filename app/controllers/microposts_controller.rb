@@ -2,7 +2,6 @@ class MicropostsController < ApplicationController
 skip_before_action :logged_in_user, except: [:create, :destroy]
 skip_before_action :check_blocked, except: [:create, :destroy]
 before_action :correct_user,   only: :destroy
-
 def create
 @micropost = current_user.microposts.build(micropost_params)
 	if @micropost.save
@@ -12,6 +11,18 @@ def create
 	  @feed_items = []
 	  render 'static_pages/home'
 	end
+end
+
+def like
+	other_mp = Micropost.find(params[:id])
+	other_mp.liked_by current_user
+	redirect_back(fallback_location: users_path)
+end
+
+def unlike
+	other_mp = Micropost.find(params[:id])
+	other_mp.unliked_by current_user
+	redirect_back(fallback_location: users_path)
 end
 
  def destroy

@@ -1,10 +1,12 @@
 class StaticPagesController < ApplicationController
-skip_before_action :logged_in_user, only: [:help, :about, :contact]
-before_action :logged_in_user, only: :home
-before_action :check_blocked, only: :home
+skip_before_action :logged_in_user
+#before_action :logged_in_user, only: :home
+skip_before_action :check_blocked
   def home
-  	@micropost = current_user.microposts.build
-  	@feed_items = current_user.feed.paginate(page: params[:page])
+  	if logged_in?
+	  	@micropost = current_user.microposts.build
+	  	@feed_items = current_user.feed.paginate(page: params[:page])
+	end
   end
   def help
   end

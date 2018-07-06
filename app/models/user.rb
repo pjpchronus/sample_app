@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   # Returns the hash digest of the given string.
+  acts_as_voter
+
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
@@ -25,7 +27,7 @@ class User < ApplicationRecord
   end
   # See "Following users" for the full implementation.
   def feed
-    Micropost.all#where("user_id = ?", id)
+    Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
 	
@@ -44,5 +46,4 @@ class User < ApplicationRecord
   def following?(other_user)
     following.include?(other_user)
   end
-
 end

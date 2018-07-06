@@ -18,6 +18,11 @@ Rails.application.routes.draw do
       patch :block, :unblock
     end
   end
-  resources :microposts,  only: [:create, :destroy]
+  resources :microposts do
+  	member do
+  		patch :like, :unlike
+  	end
+  end
+  # resources :microposts,  only: [:create, :destroy]
   resources :relationships,       only: [:create, :destroy]
 end
