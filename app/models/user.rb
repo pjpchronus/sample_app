@@ -9,6 +9,10 @@ class User < ApplicationRecord
 	has_many :following, through: :active_relationships, source: :followed
 	has_many :followers, through: :passive_relationships, source: :follower	
 
+	has_many :sent_messages, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
+	has_many :received_messages, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
+	#has_many :messages, dependent: :destroy
+
 	before_save { self.email = email.downcase }
 	validates :name, presence: true, length: { maximum: 50 }
 	VALID_EMAL_REGEX =  /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i

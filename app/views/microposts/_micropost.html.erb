@@ -9,7 +9,8 @@
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
     <% if current_user?(micropost.user) %>
       <%= link_to "Delete", micropost, method: :delete,
-                                       data: { confirm: "You sure?" } %>
+                                       data: { confirm: "You sure?" },
+                                       class: "btn btn-danger btn-sm" %>
     <% end %>
     <div><% unless current_user.voted_for? micropost %>
     	<!--span class="btn btn-primary btn-sm"><%= link_to "Like", like_micropost_url(micropost) %></span-->

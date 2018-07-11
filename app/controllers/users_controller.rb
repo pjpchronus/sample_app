@@ -4,12 +4,16 @@ class UsersController < ApplicationController
 	before_action :admin_user,     only: :destroy
 	def index
 		@users = User.paginate(page: params[:page])
+		#@messages_to_user = current_user.sent_messages.where(receiver_id: params[:receiver_id])
+		#@messages_from_user = current_user.received_messages.where(sender_id: params[:receiver_id])
 	end
+
 	def show
 		@user = User.find(params[:id])
-		#debugger
+		@message = current_user.sent_messages.build(receiver_id: params[:receiver_id])
 		@microposts = @user.microposts.paginate(page: params[:page])
 	end
+
 	def new
 		@user = User.new
 	end
@@ -23,6 +27,32 @@ class UsersController < ApplicationController
 		  render 'new'
 		end
 	end
+	def block
+		user = User.find(params[:id])
+		user.isblocked = true
+		is_saved_successfully = user.save
+		if is_saved_successfully
+			flash.now[:success] = "Account blocked successfully!"
+		else
+			flash.now[:error] = "Something went wrong. Please try again later."
+		end
+		redirect_back(fallback_location: users_path)
+	end
+
+	def unblock
+		user = User.find(params[:id])
+		user.isblocked = false
+		is_saved_successfully = user.save
+		if is_saved_successfully
+			flash.now[:success] = "Account unblocked successfully!"
+		else
+			flash.now[:error] = "Something went wrong. Please try again later."
+		end
+		flash.now[:success] = "Account unblocked successfully!"
+		redirect_back(fallback_location: users_path)
+	end
+
+
 	def destroy
 	    User.find(params[:id]).destroy
 	    flash[:success] = "User deleted"

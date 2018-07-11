@@ -12,10 +12,12 @@ Rails.application.routes.draw do
   get '/login',	to:'sessions#new'
   post '/login',	to:'sessions#create'
   delete '/logout', 	to:'sessions#destroy'
+  #get '/delete',		to:'messages#destroy'
   resources :users do
     member do
       get :following, :followers
       patch :block, :unblock
+      resources :messages
     end
   end
   resources :microposts do
@@ -23,6 +25,5 @@ Rails.application.routes.draw do
   		patch :like, :unlike
   	end
   end
-  # resources :microposts,  only: [:create, :destroy]
   resources :relationships,       only: [:create, :destroy]
 end

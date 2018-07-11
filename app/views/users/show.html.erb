@@ -8,23 +8,19 @@
       </h1>
     </section>
     <section>
-    	<li>
-	    	<% if current_user.admin? && !current_user?(@user) %>
-			  <% if @user.isblocked?%> 
-			  	<%#= link_to "unblock", user_unblock_path, method: :get%>
-					<%= form_for(@user, url: unblock_user_path(@user)) do |f|%>
-						<%= hidden_field_tag :isblocked, true %>
-						<%= f.submit "Unblock", class: "btn btn-success", style: "width: 20%" %>
-					<% end %>
-			  <%else%>
-			  	<%#= link_to "block", user_block_path, method: :get%>
-					<%= form_for(@user, url: block_user_path(@user)) do |f| %>
-						<%= hidden_field_tag :isblocked, false %>
-						<%= f.submit "Block", class: "btn btn-primary", style: "width: 20%" %>
-			   		<%end%>
-			   <% end %>
-			<% end %>
-		</li>
+    	<% if current_user.admin? && !current_user?(@user) %>
+		  <% if @user.isblocked? %>
+				<%= form_for(@user, url: unblock_user_path(@user)) do |f|%>
+					<%= hidden_field_tag :isblocked, true %>
+					<%= f.submit "Unblock", class: "btn btn-success", style: "width: 20%" %>
+				<% end %>
+		  <%else%>
+				<%= form_for(@user, url: block_user_path(@user)) do |f| %>
+					<%= hidden_field_tag :isblocked, false %>
+					<%= f.submit "Block", class: "btn btn-primary", style: "width: 20%" %>
+		   		<%end%>
+		   <% end %>
+		<% end %>
     </section>
     <section class="stats">
       <%= render 'shared/stats' %>

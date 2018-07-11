@@ -1,0 +1,14 @@
+<li id="message-<%= message.id %>">
+  <div>
+    <%= link_to gravatar_for(message.get_sender, size: 20), message.get_sender %>
+    <span class="sender" ><%= link_to message.get_sender.name, message.get_sender %></span>
+    <div class="content" style="word-break: break-word">
+    	<%= message.content %>
+    	<%#= image_tag micropost.picture.url if micropost.picture? %>
+    </div>
+    <div class="timestamp text-muted" style="font-size: 12px">
+      Sent <%= time_ago_in_words(message.created_at) %> ago.
+      <!-- <span><%= link_to "Delete", message_path(id: message.id, method: :delete), class: "btn btn-link", style: "color:red", data: {confirm: "You sure?"} %> </span> -->
+    </div>
+  </div>
+</li>

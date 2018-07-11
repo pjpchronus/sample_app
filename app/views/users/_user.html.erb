@@ -1,18 +1,23 @@
 <li>
-  <%= gravatar_for user, size: 50 %>
-  <%= link_to user.name, user %>
+	<div>
+	  <%= gravatar_for user, size: 50 %>
+	  <%= link_to user.name, user %>
+	  <% if !current_user?user %>
+	  	<%= link_to "Messages ", messages_path(id: user.id, receiver_id: user.id), class: "btn btn-primary btn-sm" %>
+	  <% end %>
+	</div>
 	<% if current_user.admin? && !current_user?(user) %>
-	| <% if user.isblocked?%> 
+	<% if user.isblocked?%> 
 	  	<%#= link_to "unblock", user_unblock_path, method: :get%>
 			<%= form_for(user, url: unblock_user_path(user)) do |f|%>
 				<%#= hidden_field_tag :isblocked, false %>
-				<%= f.submit "Unblock", class: "btn btn-link", style: "width: 10%" %>
+				<%= f.submit "Unblock", class: "btn btn-link", style: "color: green; width: 10%", data: {confirm: "You sure to unblock?"}%>
 			<% end %>
 	  <%else%>
 	  	<%#= link_to "block", user_block_path, method: :get%>
 			<%= form_for(user, url: block_user_path(user)) do |f| %>
 				<%#= hidden_field_tag :isblocked, true %>
-				<%= f.submit "Block", class: "btn btn-link", style: "width: 10%" %>
+				<%= f.submit "Block", class: "btn btn-link", style: "color: red; width: 10%", data: {confirm: "You sure to block?"}%>
 		  <%end%>
 	  <% end %>
 	<%end%>

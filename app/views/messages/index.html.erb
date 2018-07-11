@@ -1,0 +1,39 @@
+<% provide(:title, 'My messages') %>
+<!-- <aside style="float: left">
+	<% if params[:enable_delete] %>
+		<%= link_to "Disable Delete", messages_path(enable_delete: "false"), class: "btn btn-success" %>
+	<% else %>
+		<%= link_to "Enable Delete", '#', class: "btn btn-danger" %>
+	<% end %>
+</aside> -->
+<aside >
+	<div>
+		<%= link_to gravatar_for(@message.get_sender, size: 40), @message.get_sender %>
+	    <span class="sender" style="font-size:30px"><%= link_to @message.get_sender.name, @message.get_sender %></span>
+    </div>
+	<div>
+		<%= link_to gravatar_for(@message.get_receiver, size: 40), @message.get_receiver %>
+	    <span class="receiver" style="font-size:25px"><%= link_to @message.get_receiver.name, @message.get_receiver %></span>
+    </div>
+</aside>
+<div class="main-content" style="height:100vh">
+	<div>
+		<h1> Messages </h1>
+		<div style="height:50vh; overflow-y: scroll;">
+			<ul class="users">
+			  <%= render @with_user_messages %>
+			</ul>
+		</div>
+	</div>
+
+	<div>
+		<%= form_for(@message,receiver_id: :receiver_id) do |f| %>
+		  <%= render 'shared/error_messages', object: f.object %>
+		  <%= f.hidden_field :receiver_id %>
+		  <div class="field" >
+		    <%= f.text_area :content, placeholder: "Send a message"%>
+		  </div>
+		  <%= f.submit "Send", class: "btn btn-primary" %>
+		<% end %>
+	</div>
+</div>

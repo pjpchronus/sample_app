@@ -1,0 +1,2 @@
+class Messagepost < ApplicationRecord
+end

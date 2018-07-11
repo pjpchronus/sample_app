@@ -2,10 +2,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :logged_in_user
   before_action :check_blocked
+
+
   include SessionsHelper
-  def hello
-  	render html: "hello world!"
-  end
   private
   	def check_blocked
   		if current_user.isblocked
