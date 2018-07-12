@@ -5,6 +5,11 @@
       <h1>
         <%= gravatar_for @user %>
         <%= @user.name %>
+        <div>
+          <% if !current_user?@user %>
+            <%= link_to "Messages ", messages_path(id: @user.id, receiver_id: @user.id), class: "btn btn-primary", style:"margin:20px" %>
+          <% end %>
+        </div>
       </h1>
     </section>
     <section>
