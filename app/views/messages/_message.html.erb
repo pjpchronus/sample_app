@@ -1,6 +1,6 @@
 <li id="message-<%= message.id %>">
   <div>
-    <%= link_to gravatar_for(message.get_sender, size: 20), message.get_sender %>
+    <%= link_to gravatar_for(message.get_sender, size: 50), message.get_sender %>
     <span class="sender" ><%= link_to message.get_sender.name, message.get_sender %></span>
     <div class="content" style="word-break: break-word">
     	<%= message.content %>

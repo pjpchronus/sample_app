@@ -34,6 +34,10 @@ class User < ApplicationRecord
     Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
+  def name
+    self.attributes["name"] + (self.admin? ? " (Admin)" : "")
+  end
+
 	
 
   # Follows a user.

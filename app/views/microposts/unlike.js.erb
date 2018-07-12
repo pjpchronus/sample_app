@@ -1,0 +1,5 @@
+      	<% content = form_for(@other_mp, url: like_micropost_url(@other_mp), remote: true) do |f|%>
+    			<%= f.submit "Like | #{@other_mp.get_likes.size}", class: "btn", style: "width: 10%; font: bold 11px Arial;
+      text-decoration: none;  color: #111111;  padding: 2px 6px 2px 6px;" %>
+    		<% end %>
+$("#edit_micropost_<%= @other_mp.id %>").replaceWith('<%= j(content) %>');

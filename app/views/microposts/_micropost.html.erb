@@ -7,24 +7,27 @@
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
-    <% if current_user?(micropost.user) %>
-      <%= link_to "Delete", micropost, method: :delete,
-                                       data: { confirm: "You sure?" },
-                                       class: "btn btn-danger btn-sm" %>
-    <% end %>
-    <div><% unless current_user.voted_for? micropost %>
-    	<!--span class="btn btn-primary btn-sm"><%= link_to "Like", like_micropost_url(micropost) %></span-->
-    	<%= form_for(micropost, url: like_micropost_url(micropost)) do |f|%>
-			<%= f.submit "Like | #{micropost.get_likes.size}", class: "btn", style: "width: 10%; font: bold 11px Arial;
-  text-decoration: none;  color: #111111;  padding: 2px 6px 2px 6px;" %>
-		<% end %>
+    <div>
+      <% unless current_user.voted_for? micropost %>
+      	<!--span class="btn btn-primary btn-sm"><%= link_to "Like", like_micropost_url(micropost) %></span-->
+      	<%= form_for(micropost, url: like_micropost_url(micropost), remote: true) do |f|%>
+    			<%= f.submit "Like | #{micropost.get_likes.size}", class: "btn", style: "width: 10%; font: bold 11px Arial;
+      text-decoration: none;  color: #111111;  padding: 2px 6px 2px 6px;" %>
+          <% if current_user?(micropost.user) %>
+            <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: "btn btn-danger btn-xs", style: "height: 16px; vertical-align:  text-bottom;margin-bottom: -6px; padding-top: 0px 14px;" %>
+            <% end %>
+    		<% end %>
       <% else %>
       	<!--span class="btn btn-primary btn-sm"><%= link_to "Liked!", unlike_micropost_url(micropost) %></span-->
-      	<%= form_for(micropost, url: unlike_micropost_url(micropost)) do |f|%>
-			<%= f.submit "Liked! | #{micropost.get_likes.size}", class: "btn btn-primary", style: "width: 10%; font: bold 11px Arial;
-  text-decoration: none;  background-color: #337ab7;  color: #ffffff;  padding: 2px 6px 2px 6px;" %>
-		<% end %>
+      	<%= form_for(micropost, url: unlike_micropost_url(micropost), remote: true) do |f|%>
+    			<%= f.submit "Liked! | #{micropost.get_likes.size}", class: "btn btn-primary", style: "width: 10%; font: bold 11px Arial;
+      text-decoration: none;  background-color: #337ab7;  color: #ffffff;  padding: 2px 6px 2px 6px;" %>
+          <% if current_user?(micropost.user) %>
+            <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: "btn btn-danger btn-xs", style: "height: 16px; vertical-align:  text-bottom; margin-bottom: -6px;padding-top: 0px; 14px" %>
+          <% end %>
+        <% end %>
       <% end %>
+
     </div>
   </span>
 </li>

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="shortcut icon" href="https://i.ytimg.com/vi/4J9OxoIlezc/maxresdefault.jpg"/>
     <title>
-      <%= favicon_link_tag 'another_image.ico' %>
       <%= full_title(yield(:title)) %>
     </title>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all',
                                               'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <%= render 'layouts/shim' %>
   </head>
   <body>

@@ -6,23 +6,27 @@
 		<%= link_to "Enable Delete", '#', class: "btn btn-danger" %>
 	<% end %>
 </aside> -->
-<aside >
+<!--aside >
 	<div>
 		<%= link_to gravatar_for(@message.get_sender, size: 40), @message.get_sender %>
-	    <span class="sender" style="font-size:30px"><%= link_to @message.get_sender.name, @message.get_sender %></span>
+	    <span class="sender" style="font-size:28px"><%= link_to @message.get_sender.name, @message.get_sender %></span>
     </div>
 	<div>
 		<%= link_to gravatar_for(@message.get_receiver, size: 40), @message.get_receiver %>
 	    <span class="receiver" style="font-size:25px"><%= link_to @message.get_receiver.name, @message.get_receiver %></span>
     </div>
-</aside>
+</aside-->
 <div class="main-content" style="height:100vh">
-	<div>
-		<h1> Messages </h1>
+	<div class="messages">
+		<h1>Your messages with <%= link_to @message.get_receiver.name, @message.get_receiver %></h1>
 		<div style="height:50vh; overflow-y: scroll;">
+		<% if @with_user_messages.any? %>
 			<ul class="users">
 			  <%= render @with_user_messages %>
 			</ul>
+		<%else%>
+			<h3>Start a new conversation!!</h3>
+		<%end%>
 		</div>
 	</div>
 

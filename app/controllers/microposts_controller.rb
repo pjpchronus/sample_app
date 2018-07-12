@@ -14,15 +14,13 @@ def create
 end
 
 def like
-	other_mp = Micropost.find(params[:id])
-	other_mp.liked_by current_user
-	redirect_back(fallback_location: users_path)
+	@other_mp = Micropost.find(params[:id])
+	@other_mp.liked_by current_user
 end
 
 def unlike
-	other_mp = Micropost.find(params[:id])
-	other_mp.unliked_by current_user
-	redirect_back(fallback_location: users_path)
+	@other_mp = Micropost.find(params[:id])
+	@other_mp.unliked_by current_user
 end
 
  def destroy
