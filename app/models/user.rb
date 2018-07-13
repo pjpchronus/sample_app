@@ -35,7 +35,11 @@ class User < ApplicationRecord
   end
 
   def name
-    self.attributes["name"] + (self.admin? ? " (Admin)" : "")
+    if !self.attributes["name"].nil?
+      self.attributes["name"] + (self.admin? ? " (Admin)" : "")
+    else
+      self.attributes["name"]
+    end
   end
 
 	
