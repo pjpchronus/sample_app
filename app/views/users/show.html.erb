@@ -6,26 +6,28 @@
         <%= gravatar_for @user %>
         <%= @user.name %>
         <div>
+                <% if current_user.admin? && !current_user?(@user) %>
+      <% if @user.isblocked? %>
+        <%= form_for(@user, url: unblock_user_path(@user)) do |f|%>
+          <%= hidden_field_tag :isblocked, true %>
+          <%= f.submit "Unblock", class: "btn btn-success", style: "width: 20%", data: {confirm: "You sure?"} %>
           <% if !current_user?@user %>
             <%= link_to "Messages ", messages_path(id: @user.id, receiver_id: @user.id), class: "btn btn-primary", style:"margin:20px; padding: 4px 12px;" %>
           <% end %>
+        <% end %>
+      <%else%>
+        <%= form_for(@user, url: block_user_path(@user)) do |f| %>
+          <%= hidden_field_tag :isblocked, false %>
+          <%= f.submit "Block", class: "btn btn-danger", style: "width: 20%" , data: {confirm: "You sure?"}%>
+          <% if !current_user?@user %>
+            <%= link_to "Messages ", messages_path(id: @user.id, receiver_id: @user.id), class: "btn btn-primary", style:"margin:20px; padding: 4px 12px;" %>
+          <% end %>
+          <%end%>
+       <% end %>
+    <% end %>
+          
         </div>
       </h1>
-    </section>
-    <section>
-    	<% if current_user.admin? && !current_user?(@user) %>
-		  <% if @user.isblocked? %>
-				<%= form_for(@user, url: unblock_user_path(@user)) do |f|%>
-					<%= hidden_field_tag :isblocked, true %>
-					<%= f.submit "Unblock", class: "btn btn-success", style: "width: 20%", data: {confirm: "You sure?"} %>
-				<% end %>
-		  <%else%>
-				<%= form_for(@user, url: block_user_path(@user)) do |f| %>
-					<%= hidden_field_tag :isblocked, false %>
-					<%= f.submit "Block", class: "btn btn-danger", style: "width: 20%" , data: {confirm: "You sure?"}%>
-		   		<%end%>
-		   <% end %>
-		<% end %>
     </section>
     <section class="stats">
       <%= render 'shared/stats' %>

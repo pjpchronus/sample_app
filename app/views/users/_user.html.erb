@@ -7,10 +7,10 @@
 	<% if current_user.admin? && !current_user?(user) %>
 		<% if user.isblocked?%> 
 	  	<%#= link_to "unblock", user_unblock_path, method: :get%>
-				<%= link_to "Unblock", unblock_user_path(user), data: { confirm: "You sure?" }, class: "btn btn-success btn-xs my-buttons" %>
+				<%= link_to "Unblock", unblock_user_path(user), method: :patch, data: { confirm: "You sure?" }, class: "btn btn-success btn-xs my-buttons" %>
 	  <%else%>
 	  	<%#= link_to "block", user_block_path, method: :get%>
-				<%= link_to "Block", block_user_path(user), data: { confirm: "You sure?" }, class: "btn btn-danger btn-xs my-buttons" %>
+				<%= link_to "Block", block_user_path(user), method: :patch, data: { confirm: "You sure?" }, class: "btn btn-danger btn-xs my-buttons" %>
 	  <% end %>
 	<%end%>
 	<% if !current_user?user %>
