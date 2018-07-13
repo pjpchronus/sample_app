@@ -34,9 +34,9 @@ class User < ApplicationRecord
     Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
-  def name
+  def name(name_only = false)
     if !self.attributes["name"].nil?
-      self.attributes["name"] + (self.admin? ? " (Admin)" : "")
+      self.attributes["name"] + (self.admin? && !name_only ? " (Admin)" : "")
     else
       self.attributes["name"]
     end
