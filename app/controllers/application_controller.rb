@@ -7,7 +7,11 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   private
   	def check_blocked
-  		if current_user.isblocked
+      if current_user.nil?
+        store_location
+        flash[:danger] = "Please log in."
+        redirect_to login_url and return
+  		elsif current_user.isblocked
   			log_out
   			flash[:danger] = "Your account is blocked!!"
   			redirect_to login_url

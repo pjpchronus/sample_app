@@ -7,7 +7,7 @@
         <%= @user.name %>
         <div>
           <% if !current_user?@user %>
-            <%= link_to "Messages ", messages_path(id: @user.id, receiver_id: @user.id), class: "btn btn-primary", style:"margin:20px" %>
+            <%= link_to "Messages ", messages_path(id: @user.id, receiver_id: @user.id), class: "btn btn-primary", style:"margin:20px; padding: 4px 12px;" %>
           <% end %>
         </div>
       </h1>
@@ -17,12 +17,12 @@
 		  <% if @user.isblocked? %>
 				<%= form_for(@user, url: unblock_user_path(@user)) do |f|%>
 					<%= hidden_field_tag :isblocked, true %>
-					<%= f.submit "Unblock", class: "btn btn-success", style: "width: 20%" %>
+					<%= f.submit "Unblock", class: "btn btn-success", style: "width: 20%", data: {confirm: "You sure?"} %>
 				<% end %>
 		  <%else%>
 				<%= form_for(@user, url: block_user_path(@user)) do |f| %>
 					<%= hidden_field_tag :isblocked, false %>
-					<%= f.submit "Block", class: "btn btn-primary", style: "width: 20%" %>
+					<%= f.submit "Block", class: "btn btn-danger", style: "width: 20%" , data: {confirm: "You sure?"}%>
 		   		<%end%>
 		   <% end %>
 		<% end %>
