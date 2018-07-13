@@ -19,7 +19,7 @@
 <div class="main-content" style="height:100vh">
 	<div class="messages">
 		<h1>Your messages with <%= link_to @message.get_receiver.name, @message.get_receiver %></h1>
-		<div style="height:50vh; overflow-y: scroll;">
+		<div id="my-messages" style="height:50vh; overflow-y: scroll;">
 		<% if @with_user_messages.any? %>
 			<ul class="users">
 			  <%= render @with_user_messages %>
@@ -41,3 +41,7 @@
 		<% end %>
 	</div>
 </div>
+<script>
+	var objDiv = document.getElementById("my-messages");
+	objDiv.scrollTop = objDiv.scrollHeight;
+</script>
